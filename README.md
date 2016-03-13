@@ -12,7 +12,6 @@ If you do not have virtualenv installed, install it by running `sudo pip install
 6. Edit config.yml to have a similar structure to the one below
 ```yaml
     username: ovkulkarni
-    password: password
     paid: false
     ssh: false
 ```
@@ -20,6 +19,7 @@ If you do not have virtualenv installed, install it by running `sudo pip install
 8. Create a repository by running `create.py`. It should look something like this:
 ```
     $ ./create.py
+    Enter your Github password: 
     Enter the name of the repo: create-repo
     Enter a description for the repo: Create Github Repositories From the Command Line
     Add a homepage url for more info about the repo (OPTIONAL):

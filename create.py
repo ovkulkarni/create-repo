@@ -3,10 +3,12 @@ import requests
 import yaml
 import sys
 import json
+import getpass
 
 with open('config.yml', 'r') as f:
     config = yaml.load(f.read())
 
+password = getpass.getpass("Enter your Github Password: ")
 repo_name = str(input("Enter the name of the repo: "))
 repo_desc = str(input("Enter a description for the repo: "))
 repo_homepage = str(input("Add a homepage url for more info about the repo (OPTIONAL): "))
@@ -73,7 +75,7 @@ else:
     init = True
 
 session = requests.Session()
-session.auth = (config["username"], config["password"])
+session.auth = (config["username"], password)
 data = {
         "name": repo_name,
         "description": repo_desc,
