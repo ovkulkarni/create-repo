@@ -1,0 +1,4 @@
+username: username
+password: password
+paid: do you have a paid account (true or false)
+ssh: do you clone github repos via an ssh key (true or false) 
