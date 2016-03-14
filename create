@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3
+#!/usr/bin/env python3
 
 ######################################################################################
 #                                                                                    #
@@ -31,6 +31,7 @@ import yaml
 import sys
 import json
 import getpass
+
 try:
     with open('config.yml', 'r') as f:
         config = yaml.load(f.read())
@@ -39,67 +40,79 @@ try:
     repo_name = str(input("Enter the name of the repo: "))
     repo_desc = str(input("Enter a description for the repo: "))
     repo_homepage = str(input("Add a homepage url for more info about the repo (OPTIONAL): "))
-    valid = ['y', 'n']
-    repo_priv = 'n'
-    if config["paid_account"]:
-        repo_priv = str(input("Do you want this repo to be private? (y or n): "))
-        if not repo_priv in valid:
-            repo_priv = str(input("Please enter either y or n: "))
-        if not repo_priv in valid:
+    if config["defaults"]:
+        with open('defaults.yml', 'r') as f:
+            defaults = yaml.load(f.read())
+        if not config["paid"]:
+            private = False
+        else:
+            private = defaults["private"]
+        issues = defaults["issues"]
+        wiki = defaults["wiki"]
+        downloads = defaults["downloads"]
+        init = defaults["init"]
+    else:
+        valid = ['y', 'n']
+        repo_priv = 'n'
+        if config["paid"]:
+            repo_priv = str(input("Do you want this repo to be private? (y or n): "))
+            if not repo_priv in valid:
+                repo_priv = str(input("Please enter either y or n: "))
+            if not repo_priv in valid:
+                print("Invalid Input! Exiting...")
+            sys.exit()
+        if repo_priv == 'n':
+            private = False
+        else:
+            private = True
+
+        repo_issues = str(input("Do you want this repo to have issues enabled? (y or n): "))
+        if not repo_issues in valid:
+            repo_issues = str(input("Please enter either y or n: "))
+        if not repo_issues in valid:
             print("Invalid Input! Exiting...")
-        sys.exit()
-    if repo_priv == 'n':
-        private = False
-    else:
-        private = True
+            sys.exit()
 
-    repo_issues = str(input("Do you want this repo to have issues enabled? (y or n): "))
-    if not repo_issues in valid:
-        repo_issues = str(input("Please enter either y or n: "))
-    if not repo_issues in valid:
-        print("Invalid Input! Exiting...")
-        sys.exit()
+        if repo_issues == 'n':
+            issues = False
+        else:
+            issues = True
 
-    if repo_issues == 'n':
-        issues = False
-    else:
-        issues = True
+        repo_wiki = str(input("Do you want this repo to have the wiki enabled? (y or n): "))
+        if not repo_wiki in valid:
+            repo_wiki = str(input("Please enter either y or n: "))
+        if not repo_wiki in valid:
+            print("Invalid Input! Exiting...")
+            sys.exit()
 
-    repo_wiki = str(input("Do you want this repo to have the wiki enabled? (y or n): "))
-    if not repo_wiki in valid:
-        repo_wiki = str(input("Please enter either y or n: "))
-    if not repo_wiki in valid:
-        print("Invalid Input! Exiting...")
-        sys.exit()
+        if repo_wiki == 'n':
+            wiki = False
+        else:
+            wiki = True
 
-    if repo_wiki == 'n':
-        wiki = False
-    else:
-        wiki = True
+        repo_downloads = str(input("Do you want this repo to have downloads enabled? (y or n): "))
+        if not repo_downloads in valid:
+            repo_downloads = str(input("Please enter either y or n: "))
+        if not repo_downloads in valid:
+            print("Invalid Input! Exiting...")
+            sys.exit()
 
-    repo_downloads = str(input("Do you want this repo to have downloads enabled? (y or n): "))
-    if not repo_downloads in valid:
-        repo_downloads = str(input("Please enter either y or n: "))
-    if not repo_downloads in valid:
-        print("Invalid Input! Exiting...")
-        sys.exit()
+        if repo_downloads == 'n':
+            downloads = False
+        else:
+            downloads = True
 
-    if repo_downloads == 'n':
-        downloads = False
-    else:
-        downloads = True
+        repo_init = str(input("Do you want this repo be initialized with an empty README? (y or n): "))
+        if not repo_init in valid:
+            repo_init = str(input("Please enter either y or n: "))
+        if not repo_init in valid:
+            print("Invalid Input! Exiting...")
+            sys.exit()
 
-    repo_init = str(input("Do you want this repo be initialized with an empty README? (y or n): "))
-    if not repo_init in valid:
-        repo_init = str(input("Please enter either y or n: "))
-    if not repo_init in valid:
-        print("Invalid Input! Exiting...")
-        sys.exit()
-
-    if repo_init == 'n':
-        init = False
-    else:
-        init = True
+        if repo_init == 'n':
+            init = False
+        else:
+            init = True
 
     session = requests.Session()
     session.auth = (config["username"], password)
@@ -135,6 +148,10 @@ try:
         print("[-] Here is the full content Github returned: {}".format(json.loads(r.text)["message"]))
 except KeyboardInterrupt as e:
     print("\nExiting...")
+    sys.exit()
+except requests.ConnectionError as e:
+    print("\n[-] Not Connected To Internet!")
+    print("Exiting...")
     sys.exit()
 except BaseException as e:
     print("\nReceived an error of {}".format(str(e)))

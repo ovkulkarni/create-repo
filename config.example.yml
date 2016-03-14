@@ -1,3 +1,4 @@
 username: username
 paid: do you have a paid account (true or false)
-ssh: do you clone github repos via an ssh key (true or false) 
+ssh: do you clone github repos via an ssh key (true or false)
+defaults: do you want to have a default configuration in defaults.yml (true or false) 

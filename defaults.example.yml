@@ -1,0 +1,5 @@
+private: false
+issues: true
+wiki: true
+downloads: true
+init: false
