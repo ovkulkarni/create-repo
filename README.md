@@ -46,3 +46,25 @@
 ```
 
 ****This repository was created using this tool****
+
+##List Repos
+1. List all your repos by running `list`. It should look something like this:
+```
+    $ ./list
+    Enter your Github Password:
+    [=] Sending request to Github...
+    ovkulkarni/avalon - https://github.com/ovkulkarni/avalon
+    ovkulkarni/chinmaya - https://github.com/ovkulkarni/chinmaya
+    ovkulkarni/create-repo - https://github.com/ovkulkarni/create-repo
+    ovkulkarni/cslbot - https://github.com/ovkulkarni/cslbot
+    ovkulkarni/dms - https://github.com/ovkulkarni/dms
+    ovkulkarni/ion - https://github.com/ovkulkarni/ion
+    ovkulkarni/operatingsystem - https://github.com/ovkulkarni/operatingsystem
+    ovkulkarni/weechat-config - https://github.com/ovkulkarni/weechat-config
+    sckasturi/soda - https://github.com/sckasturi/soda
+    TJCSec/ctf-platform - https://github.com/TJCSec/ctf-platform
+    TJCSec/ctf-problems - https://github.com/TJCSec/ctf-problems
+    TJCSec/ctf-site-material - https://github.com/TJCSec/ctf-site-material
+    TJCSec/ctf-site-reborn - https://github.com/TJCSec/ctf-site-reborn
+```
+****Private Repositories will be listed with [PRIVATE] before them and in red text****

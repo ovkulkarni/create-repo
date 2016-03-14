@@ -1,0 +1,66 @@
+#!/usr/bin/env python3
+
+######################################################################################
+#                                                                                    #
+#The MIT License (MIT)                                                               #
+#                                                                                    #
+#Copyright (c) 2016 Omkar Kulkarni                                                   #
+#                                                                                    #
+#Permission is hereby granted, free of charge, to any person obtaining a copy        #
+#of this software and associated documentation files (the "Software"), to deal       #
+#in the Software without restriction, including without limitation the rights        #
+#to use, copy, modify, merge, publish, distribute, sublicense, and/or sell           #
+#copies of the Software, and to permit persons to whom the Software is               #
+#furnished to do so, subject to the following conditions:                            #
+#                                                                                    #
+#The above copyright notice and this permission notice shall be included in all      #
+#copies or substantial portions of the Software.                                     #
+#                                                                                    #
+#THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR          #
+#IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,            #
+#FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE         #
+#AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER              #
+#LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,       #
+#OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE       #
+#SOFTWARE.                                                                           #
+#                                                                                    #
+######################################################################################
+
+import requests
+import yaml
+import sys
+import json
+import getpass
+from termcolor import colored
+
+try:
+    with open('config.yml', 'r') as f:
+        config = yaml.load(f.read())
+
+    password = getpass.getpass("Enter your Github Password: ")
+    session = requests.Session()
+    session.auth = (config["username"], password)
+    url = 'https://api.github.com/user/repos'
+    print('[=] Sending request to Github...')
+    r = session.get(url)
+    if r.status_code == 200:
+        returned = json.loads(r.text)
+        for item in returned:
+            if item["private"]:
+                print(colored("[PRIVATE] {} - {}".format(item["full_name"], item["html_url"]), "red"))
+            else:
+                print("{} - {}".format(item["full_name"], item["html_url"]))
+    else:
+        print("[-] Unable to access repositories. Github returned an error of {}".format(r.status_code))
+        print("[-] Here is the full content Github returned: {}".format(json.loads(r.text)["message"]))
+except KeyboardInterrupt as e:
+    print("\nExiting...")
+    sys.exit()
+except requests.ConnectionError as e:
+    print("\n[-] Not Connected To Internet!")
+    print("Exiting...")
+    sys.exit()
+except BaseException as e:
+    print("\nReceived an error of {}".format(str(e)))
+    print("Exiting...")
+    sys.exit()
