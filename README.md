@@ -11,7 +11,9 @@
     ssh: false
     defaults: false
 ```
+
 **ONLY IF YOU WANT TO USE DEFAULTS**
+
 1. Move defaults.example.yml to defaults.yml by doing `mv defaults.example.yml defaults.yml`
 2. Edit defaults.yml to have a similar structure to the one below
 ```yaml
