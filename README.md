@@ -4,12 +4,8 @@
 If you do not have virtualenv installed, install it by running `sudo pip install virtualenv`
 
 ##Set Up
-1. Create a virtual environment by doing `virtualenv venv -p python3`
-2. Activate the virtual environment by doing `source venv/bin/activate`
-3. Clone this repository onto your computer by doing `git clone https://github.com/ovkulkarni/create-repo.git`
-4. Change into the directory by doing `cd create-repo`
-5. Move config.example.yml to config.yml by doing `mv config.example.yml config.yml`
-6. Edit config.yml to have a similar structure to the one below
+1. Move config.example.yml to config.yml
+2. Edit config.yml to have a similar structure to the one below
 ```yaml
     username: ovkulkarni
     paid: false
