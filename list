@@ -31,10 +31,12 @@ import yaml
 import sys
 import json
 import getpass
+import os
 from termcolor import colored
 
 try:
-    with open('config.yml', 'r') as f:
+    current_dir = os.path.dirname(os.path.realpath(__file__))
+    with open(current_dir + '/config.yml', 'r') as f:
         config = yaml.load(f.read())
 
     password = getpass.getpass("Enter your Github Password: ")

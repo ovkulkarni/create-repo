@@ -31,9 +31,11 @@ import yaml
 import sys
 import json
 import getpass
+import os
 
 try:
-    with open('config.yml', 'r') as f:
+    current_dir = os.path.dirname(os.path.realpath(__file__))
+    with open(current_dir + '/config.yml', 'r') as f:
         config = yaml.load(f.read())
 
     password = getpass.getpass("Enter your Github Password: ")
@@ -41,7 +43,7 @@ try:
     repo_desc = str(input("Enter a description for the repo: "))
     repo_homepage = str(input("Add a homepage url for more info about the repo (OPTIONAL): "))
     if config["defaults"]:
-        with open('defaults.yml', 'r') as f:
+        with open(current_dir + '/defaults.yml', 'r') as f:
             defaults = yaml.load(f.read())
         if not config["paid"]:
             private = False
